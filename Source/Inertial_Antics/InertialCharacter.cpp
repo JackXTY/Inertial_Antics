@@ -85,7 +85,7 @@ void AInertialCharacter::SetupPlayerInputComponent(class UInputComponent* Player
 void AInertialCharacter::Move_XAxis(float AxisValue)
 {
     // Move at 100 units per second forward or backward
-    // UE_LOG(LogTemp, Warning, TEXT("Move_XAxis %f"), AxisValue);
+    //UE_LOG(LogTemp, Warning, TEXT("Move_XAxis %s"), *GetActorForwardVector().ToString());// AxisValue);
     WalkInput.X = AxisValue;
 }
 
@@ -133,8 +133,10 @@ void AInertialCharacter::LeftMouseButton(float AxisValue)
 
 //void AInertialCharacter::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
 //{
+//    UE_LOG(LogTemp, Warning, TEXT("Hit everything!!"));
+//
 //    if (OtherActor != nullptr && OtherActor != this && OtherComponent != nullptr && OtherComponent->IsSimulatingPhysics())
 //    {
-//        UE_LOG(LogTemp, Warning, TEXT("Hit!!"));
+//        UE_LOG(LogTemp, Warning, TEXT("Hit a possessable!!"));
 //    }
 //}
