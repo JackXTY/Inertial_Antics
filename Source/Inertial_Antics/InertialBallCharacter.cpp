@@ -11,13 +11,15 @@ AInertialBallCharacter::AInertialBallCharacter()
     MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshComponent"));
     MeshComponent->SetupAttachment(CollisionComponent);
 
-    SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
+    /*SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
     SpringArmComponent->bUsePawnControlRotation = true;
-    SpringArmComponent->SetupAttachment(CollisionComponent);
+    SpringArmComponent->SetupAttachment(CollisionComponent);*/
 
     CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
-    CameraComponent->SetupAttachment(SpringArmComponent);
+    // CameraComponent->SetupAttachment(SpringArmComponent);
     SetCamera();
+
+    CameraComponent->SetupAttachment(CollisionComponent);
 
     ArrowMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ArrowMeshComponent"));
     ArrowMeshComponent->SetupAttachment(CameraComponent);
