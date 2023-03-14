@@ -35,7 +35,8 @@ public:
 	virtual void BeginPlay() override;
 
 	// UPROPERTY(EditAnywhere)
-	UCameraComponent* CameraComponent;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		UCameraComponent* CameraComponent;
 
 	USceneComponent* SceneComponent;
 
@@ -74,11 +75,14 @@ public:
 
 	// UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
 	float cameraPitchAngle = 25.f;
+
+	float horizontalAngle = 0.f;
+
+	float deltaMouseX = 0.f;
+	float deltaMouseY = 0.f;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "View")
 		float cameraVerticalRotationSpeed = 0.5f;
-	
-	float horizontalAngle = 0.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "View")
 		float horizontalRotationSpeed = 0.5f;

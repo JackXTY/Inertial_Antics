@@ -8,10 +8,10 @@
 AInertialCharacter::AInertialCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	// PrimaryActorTick.bCanEverTick = true;
 
     // Set this pawn to be controlled by the lowest-numbered player
-    AutoPossessPlayer = EAutoReceiveInput::Player0;
+    // AutoPossessPlayer = EAutoReceiveInput::Player0;
 
     //UE_LOG(LogTemp, Warning, TEXT("Walk Speed = %f"), walkSpeed);
 
@@ -38,16 +38,37 @@ AInertialCharacter::AInertialCharacter()
 void AInertialCharacter::SetCollisionComponent()
 {
     CollisionComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("CollisionComponent"));
-    //CollisionComponent->OnComponentHit.AddDynamic(this, &AInertialCharacter::OnHit);
+    CollisionComponent->SetSimulatePhysics(true);
+    CollisionComponent->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
+    // CollisionComponent->OnComponentHit.AddDynamic(this, &AInertialCharacter::OnHit);
     RootComponent = CollisionComponent;
 }
 
 // change camera rotation and position according to cameraPitchAngle and cameraDistance
+// also deal with actor rotation
 void AInertialCharacter::SetCamera()
 {
+    //if (CameraComponent != nullptr && PrimaryActorTick.bCanEverTick && AutoPossessPlayer != EAutoReceiveInput::Disabled)
+ 
+    if (FMath::Abs(deltaMouseX) > 0.01f)
+    {
+        horizontalAngle += deltaMouseX * horizontalRotationSpeed;
+        deltaMouseX = 0.f;
+        
+        // UE_LOG(LogTemp, Warning, TEXT("horizontalAngle = %f"), horizontalAngle);
+    }
+    SetActorRotation(FRotator(0.f, horizontalAngle, 0.f));
+    
+    if (FMath::Abs(deltaMouseY) > 0.01f)
+    {
+        cameraPitchAngle = FMath::Clamp(cameraPitchAngle + deltaMouseY * cameraVerticalRotationSpeed, -25.f, 85.f);
+        deltaMouseY = 0.f;
+    }
+
     FVector camRelativePos = FVector(-cameraDistance * cos(cameraPitchAngle * 0.017453f), 0.0f, cameraDistance * sin(cameraPitchAngle * 0.017453f));
     CameraComponent->SetRelativeLocation(camRelativePos + focusOffset);
     CameraComponent->SetRelativeRotation(FRotator(-cameraPitchAngle, 0.0f, 0.0f));
+    
 }
 
 // Called when the game starts or when spawned
@@ -60,20 +81,23 @@ void AInertialCharacter::Tick(float DeltaTime)
 {
     // move the camera according to mouse input
     SetCamera();
-    SetActorRotation(FRotator(0.f, horizontalAngle, 0.f));
+    
 
     if (CollisionComponent->GetComponentVelocity().Length() < walkMaxSpeed)
     {
         FVector dir = GetActorRightVector()* WalkInput.X + GetActorForwardVector() * WalkInput.Y;
-        dir.Normalize();
-
-        CollisionComponent->AddImpulse(dir * walkPower);
+        if (dir.Length() > 0.01f)
+        {
+            dir.Normalize();
+            CollisionComponent->AddImpulse(dir * walkPower * DeltaTime);
+        }
     }
 }
 
 // Called to bind functionality to input
 void AInertialCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponents)
 {
+    // UE_LOG(LogTemp, Warning, TEXT("SetupPlayerInputComponent"));
     // Respond every frame to the values of our two movement axes, "MoveX" and "MoveY".
     PlayerInputComponents->BindAxis("MoveX", this, &AInertialCharacter::Move_XAxis);
     PlayerInputComponents->BindAxis("MoveY", this, &AInertialCharacter::Move_YAxis);
@@ -97,19 +121,19 @@ void AInertialCharacter::Move_YAxis(float AxisValue)
 void AInertialCharacter::Mouse_XAxis(float AxisValue)
 {
     // UE_LOG(LogTemp, Warning, TEXT("Mouse_XAxis %f"), AxisValue);
-    horizontalAngle += AxisValue * horizontalRotationSpeed;
+    deltaMouseX += AxisValue;
 }
 
 void AInertialCharacter::Mouse_YAxis(float AxisValue)
 {
     // UE_LOG(LogTemp, Warning, TEXT("Mouse_YAxis %f"), AxisValue);
-    cameraPitchAngle = FMath::Clamp(cameraPitchAngle + AxisValue * cameraVerticalRotationSpeed, -25.f, 85.f);
+    deltaMouseY += AxisValue;
 }
 
 // Move the pawn with inertia
 void AInertialCharacter::LeftMouseButton(float AxisValue)
 {
-    //UE_LOG(LogTemp, Warning, TEXT("LeftMouseButton %f"), AxisValue);
+    // UE_LOG(LogTemp, Warning, TEXT("LeftMouseButton %f"), AxisValue);
     if (AxisValue > 0.99f)
     {
         //if (leftMouseButtonVal < 0.01f)
