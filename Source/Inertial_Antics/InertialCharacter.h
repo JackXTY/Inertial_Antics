@@ -58,7 +58,7 @@ public:
 	void Mouse_XAxis(float AxisValue);
 	void Mouse_YAxis(float AxisValue);
 	void LeftMouseButton(float AxisValue);
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
 		float walkMaxSpeed = 100.f;
 
