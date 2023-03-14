@@ -4,12 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
-// #include "GameFramework/CharacterMovementComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Components/ShapeComponent.h"
 #include "Components/BoxComponent.h"
-// #include "GameFramework/ProjectileMovementComponent.h"
-#include <Inertial_Antics/InertialMovementComponent.h>
+#include "GameFramework/SpringArmComponent.h"
 #include "InertialCharacter.generated.h"
 
 UCLASS()
@@ -37,6 +35,9 @@ public:
 	// UPROPERTY(EditAnywhere)
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		UCameraComponent* CameraComponent;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		USpringArmComponent* SpringArmComponent;
 
 	USceneComponent* SceneComponent;
 

@@ -1,33 +1,21 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "InertialCharacter.h"
-#include "Components/BoxComponent.h"
-#include "GameFramework/SpringArmComponent.h"
 
 // Sets default values
 AInertialCharacter::AInertialCharacter()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	// PrimaryActorTick.bCanEverTick = true;
-
-    // Set this pawn to be controlled by the lowest-numbered player
-    // AutoPossessPlayer = EAutoReceiveInput::Player0;
-
-    //UE_LOG(LogTemp, Warning, TEXT("Walk Speed = %f"), walkSpeed);
-
-    // SceneComponent = CreateDefaultSubobject<USceneComponent>(TEXT("SceneComponent"));
-    
-
     SetCollisionComponent();
 
     MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshComponent"));
     MeshComponent->SetupAttachment(CollisionComponent);
-    // RootComponent = MeshComponent;
-    
-    // SetRootComponent(MeshComponent);
+
+    SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
+    SpringArmComponent->bUsePawnControlRotation = true;
+    SpringArmComponent->SetupAttachment(CollisionComponent);
 
     CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
-    CameraComponent->SetupAttachment(CollisionComponent);
+    CameraComponent->SetupAttachment(SpringArmComponent);
     SetCamera();
 
     ArrowMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ArrowMeshComponent"));
