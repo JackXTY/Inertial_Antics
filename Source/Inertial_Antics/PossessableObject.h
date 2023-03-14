@@ -1,13 +1,13 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
-
+#include "InertialCharacter.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "PossessableObject.generated.h"
 
 UCLASS()
-class INERTIAL_ANTICS_API APossessableObject : public AActor
+class INERTIAL_ANTICS_API APossessableObject : public APawn
 {
 	GENERATED_BODY()
 	

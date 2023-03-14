@@ -37,7 +37,7 @@ AInertialCharacter::AInertialCharacter()
 
 void AInertialCharacter::SetCollisionComponent()
 {
-    CollisionComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("CollisionComponent"));
+    CollisionComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxCollisionComponent"));
     //CollisionComponent->OnComponentHit.AddDynamic(this, &AInertialCharacter::OnHit);
     RootComponent = CollisionComponent;
 }
@@ -62,7 +62,7 @@ void AInertialCharacter::Tick(float DeltaTime)
     SetCamera();
     SetActorRotation(FRotator(0.f, horizontalAngle, 0.f));
 
-    if (CollisionComponent->GetComponentVelocity().Length() < walkMaxSpeed)
+    if (CollisionComponent && CollisionComponent->GetComponentVelocity().Length() < walkMaxSpeed)
     {
         FVector dir = GetActorRightVector()* WalkInput.X + GetActorForwardVector() * WalkInput.Y;
         dir.Normalize();
@@ -124,7 +124,9 @@ void AInertialCharacter::LeftMouseButton(float AxisValue)
     {
         // on mouse release
         FVector shoot = ArrowMeshComponent->GetRightVector() * FMath::Min(leftMouseButtonVal, 10.0f) * ShootPower;
-        CollisionComponent->AddImpulse(shoot);
+        if (CollisionComponent) {
+            CollisionComponent->AddImpulse(shoot);
+        }
 
         leftMouseButtonVal = 0.f;
     }

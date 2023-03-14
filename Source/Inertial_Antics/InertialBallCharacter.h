@@ -14,5 +14,8 @@ class INERTIAL_ANTICS_API AInertialBallCharacter : public AInertialCharacter
 {
 	GENERATED_BODY()
 	
-	//virtual void SetCollisionComponent() override;
+public:
+	// Sets default values for this character's properties
+	AInertialBallCharacter();
+	virtual void SetCollisionComponent() override;
 };
