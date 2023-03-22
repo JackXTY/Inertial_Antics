@@ -10,13 +10,17 @@ AInertialCharacter::AInertialCharacter()
     MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshComponent"));
     MeshComponent->SetupAttachment(CollisionComponent);
 
-    SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
+    /*SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
     SpringArmComponent->bUsePawnControlRotation = true;
-    SpringArmComponent->SetupAttachment(CollisionComponent);
+    SpringArmComponent->bEnableCameraLag = true;
+    SpringArmComponent->TargetArmLength = 500.0f;
+    SpringArmComponent->TargetOffset = FVector(0, 0, 100);
+    SpringArmComponent->SetupAttachment(CollisionComponent);*/
 
     CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
-    CameraComponent->SetupAttachment(SpringArmComponent);
-    SetCamera();
+    CameraComponent->SetupAttachment(CollisionComponent);
+    // CameraComponent->AttachToComponent(SpringArmComponent, FAttachmentTransformRules::KeepRelativeTransform);
+    //SetCamera();
 
     ArrowMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ArrowMeshComponent"));
     ArrowMeshComponent->SetupAttachment(CameraComponent);
@@ -69,7 +73,7 @@ void AInertialCharacter::Tick(float DeltaTime)
 {
     // move the camera according to mouse input
     SetCamera();
-    SetActorRotation(FRotator(0.f, horizontalAngle, 0.f));
+    // SetActorRotation(FRotator(0.f, horizontalAngle, 0.f));
 
     if (CollisionComponent && CollisionComponent->GetComponentVelocity().Length() < walkMaxSpeed)
     {
@@ -130,17 +134,17 @@ void AInertialCharacter::LeftMouseButton(float AxisValue)
         //}
   
         // when mouse is being pressed
-        leftMouseButtonVal += AxisValue;
+        shootVal += AxisValue;
     }
-    else if (leftMouseButtonVal > 0.99f)
+    else if (shootVal > 0.99f)
     {
         // on mouse release
-        FVector shoot = ArrowMeshComponent->GetRightVector() * FMath::Min(leftMouseButtonVal, 10.0f) * ShootPower;
+        FVector shoot = ArrowMeshComponent->GetRightVector() * FMath::Min(shootVal, shootMax) * ShootPower;
         if (CollisionComponent) {
             CollisionComponent->AddImpulse(shoot);
         }
 
-        leftMouseButtonVal = 0.f;
+        shootVal = 0.f;
     }
     
 }

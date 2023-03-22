@@ -36,8 +36,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		UCameraComponent* CameraComponent;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		USpringArmComponent* SpringArmComponent;
+	/*UPROPERTY(Instanced, EditAnywhere, BlueprintReadWrite)
+		USpringArmComponent* SpringArmComponent;*/
 
 	USceneComponent* SceneComponent;
 
@@ -99,7 +99,11 @@ public:
 
 	void SetCamera();
 
-	float leftMouseButtonVal = 0.f;
+	UPROPERTY(BlueprintReadOnly, Category = "Hit")
+		float shootVal = 0.f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hit")
+		float shootMax = 10.0f;
 
 	//UFUNCTION()
 	//	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
