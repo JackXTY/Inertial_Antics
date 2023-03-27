@@ -85,4 +85,10 @@ public:
 		float cameraMaxAngle = 80.f;
 
 	float horizontalAngle = 0.f;
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+		void StartPlayerControl();
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+		void StopPlayerControl();
 };
