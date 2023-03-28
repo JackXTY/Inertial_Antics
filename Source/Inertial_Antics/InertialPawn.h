@@ -24,6 +24,9 @@ protected:
 
 public:	
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
+		float pawnMass = 100.f;
+
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
