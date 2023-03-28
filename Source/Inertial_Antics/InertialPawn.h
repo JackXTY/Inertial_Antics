@@ -91,4 +91,10 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 		void StopPlayerControl();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
+		float rotatePitch = 0.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
+		float rotateRoll = 0.f;
 };

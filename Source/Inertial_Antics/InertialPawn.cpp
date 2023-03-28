@@ -28,7 +28,7 @@ void AInertialPawn::Tick(float DeltaTime)
 
         // UE_LOG(LogTemp, Warning, TEXT("horizontalAngle = %f"), horizontalAngle);
     }
-    SetActorRotation(FRotator(0.f, horizontalAngle, 0.f));
+    SetActorRotation(FRotator(rotatePitch, horizontalAngle, rotateRoll));
 }
 
 // Called to bind functionality to input
