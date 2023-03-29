@@ -24,6 +24,9 @@ protected:
 
 public:	
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
+		float pawnMass = 100.f;
+
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
@@ -85,4 +88,16 @@ public:
 		float cameraMaxAngle = 80.f;
 
 	float horizontalAngle = 0.f;
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+		void StartPlayerControl();
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+		void StopPlayerControl();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
+		float rotatePitch = 0.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
+		float rotateRoll = 0.f;
 };
