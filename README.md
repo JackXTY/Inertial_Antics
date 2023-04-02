@@ -14,6 +14,10 @@ With a limited number of resources, and the unique nature of each possessable ob
 
 This game is developed purely for PC platforms. The development process to take about 5 weeks with a talented team of 3 game developers working around the clock to ensure the best output for our loyal players.
 
+Watch the Trailer
+---------
+https://drive.google.com/file/d/1nzWO9MthA4IaZgHk-NyLwy4nAjIFmlsr/view?usp=sharing
+
 
 Play Demo
 ---------
